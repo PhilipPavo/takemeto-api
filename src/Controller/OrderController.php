@@ -42,6 +42,19 @@ class OrderController extends Controller
     }
 
     /**
+     * @Route("/test", name="test")
+     */
+    public function test(Request $request){
+        $response = $this->json(array(
+            'test' => 'success'
+        ));
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
+        return $response;
+    }
+
+
+    /**
      * @Route("/order", name="order")
      */
     public function index(Request $request, \Swift_Mailer $mailer)
