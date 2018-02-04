@@ -111,6 +111,9 @@ class OrderController extends Controller
             return $response;
         }
 
+        $mailLogger = new \Swift_Plugins_Loggers_ArrayLogger();
+        $mailer->registerPlugin(new \Swift_Plugins_LoggerPlugin($mailLogger));
+
         $message = (new \Swift_Message('Hello Email'))
             ->setFrom('pavophilip@gmail.com')
             ->setTo('pavophilip@gmail.com')
@@ -123,10 +126,12 @@ class OrderController extends Controller
             )
         ;
 
-        $mailer->send($message);
+        $res = $mailer->send($message, $failures);
 
         $response = $this->json(array(
-            'error' => false
+            'error' => false,
+            'dump' => $mailLogger->dump(),
+            'failures' => $failures
         ));
 
         $response->headers->set('Access-Control-Allow-Origin', '*');
