@@ -42,7 +42,7 @@ class OrderController extends Controller
     }
 
     /**
-     * @Route("/test", name="test")
+     * @Route("/api/test", name="test")
      */
     public function test(Request $request){
         $response = $this->json(array(
@@ -55,7 +55,7 @@ class OrderController extends Controller
 
 
     /**
-     * @Route("/order", name="order")
+     * @Route("/api/order", name="order")
      */
     public function index(Request $request, \Swift_Mailer $mailer)
     {
