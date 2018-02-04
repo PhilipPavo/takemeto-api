@@ -2,20 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="64e7e3c2-53ea-495d-a0d9-b14624cd18a7" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/macbookpro.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/php.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/public/data.json" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/public/store.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/Controller/AppController.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/Controller/OrderController.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/templates/emails/order.html.twig" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/composer.json" afterPath="$PROJECT_DIR$/composer.json" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" afterPath="$PROJECT_DIR$/composer.lock" />
-      <change beforePath="$PROJECT_DIR$/config/bundles.php" afterPath="$PROJECT_DIR$/config/bundles.php" />
-      <change beforePath="$PROJECT_DIR$/config/services.yaml" afterPath="$PROJECT_DIR$/config/services.yaml" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" afterPath="$PROJECT_DIR$/symfony.lock" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -126,12 +113,20 @@
       <updated>1517664013450</updated>
       <workItem from="1517664014763" duration="10050000" />
       <workItem from="1517734731855" duration="3802000" />
-      <workItem from="1517772350031" duration="1255000" />
+      <workItem from="1517772350031" duration="1361000" />
     </task>
+    <task id="LOCAL-00001" summary="init">
+      <created>1517774236508</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1517774236508</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15107000" />
+    <option name="totallyTimeSpent" value="15213000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -183,6 +178,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init" />
+    <option name="LAST_COMMIT_MESSAGE" value="init" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
