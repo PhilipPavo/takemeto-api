@@ -115,7 +115,7 @@ class OrderController extends Controller
         $mailer->registerPlugin(new \Swift_Plugins_LoggerPlugin($mailLogger));
 
         $message = (new \Swift_Message('Hello Email'))
-            ->setFrom('order@takemeto.ru')
+            //->setFrom('order@takemeto.ru')
             ->setTo('pavophilip@gmail.com')
             ->setBody(
                 $this->renderView(
