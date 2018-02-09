@@ -147,20 +147,22 @@ class OrderController extends Controller
         $mailLogger = new \Swift_Plugins_Loggers_ArrayLogger();
         $mailer->registerPlugin(new \Swift_Plugins_LoggerPlugin($mailLogger));
 
+        $mailBody = $this->renderView(
+            'emails/order.html.twig',
+            array(
+                'city_from' => $this->searchCity($order['city_from']),
+                'city_to' => $this->searchCity($order['city_to']),
+                'auto' => $this->searchAuto($order['auto']),
+                'date_from' => $this->formatDate($order['date_range']['from']),
+                'date_to' => $this->formatDate($order['date_range']['to']),
+            )
+        );
+
         $message = (new \Swift_Message('Hello Email'))
             ->setFrom('pavophilip@gmail.com')
             ->setTo($order['customer']['email'])
             ->setBody(
-                $this->renderView(
-                    'emails/order.html.twig',
-                    array(
-                        'city_from' => $this->searchCity($order['city_from']),
-                        'city_to' => $this->searchCity($order['city_to']),
-                        'auto' => $this->searchAuto($order['auto']),
-                        'date_from' => $this->formatDate($order['date_range']['from']),
-                        'date_to' => $this->formatDate($order['date_range']['to']),
-                    )
-                ),
+                $mailBody,
                 'text/html'
             )
         ;
@@ -170,7 +172,8 @@ class OrderController extends Controller
         $response = $this->json(array(
             'error' => false,
             'dump' => $mailLogger->dump(),
-            'failures' => $failures
+            'failures' => $failures,
+            'mail' => $mailBody
         ));
 
         $response->headers->set('Access-Control-Allow-Origin', '*');
