@@ -35,7 +35,7 @@ class OrderController extends Controller
         return array();
     }
 
-    function validateAuto($autoId, ExecutionContextInterface $context = null, $payload)
+    function validateAuto($autoId, ExecutionContextInterface $context, $payload)
     {
         $store = new DataStore();
         $autos = $store->get('AUTOS_LIST');
@@ -44,10 +44,6 @@ class OrderController extends Controller
             if($auto['id'] == $autoId){
                 return $auto;
             }
-        }
-
-        if(!$context){
-            return;
         }
 
         $context->buildViolation('Auto not found')
@@ -63,10 +59,6 @@ class OrderController extends Controller
             if($city['id'] == $cityId){
                 return $city;
             }
-        }
-
-        if(!$context){
-            return;
         }
 
         $context->buildViolation('City not found')
