@@ -11,15 +11,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class OrderController extends Controller
 {
-    function validateAuto($autoId, ExecutionContextInterface $context, $payload)
+    function validateAuto($autoId, ExecutionContextInterface $context = null, $payload)
     {
         $store = new DataStore();
         $autos = $store->get('AUTOS_LIST');
 
         foreach ($autos as $key => $auto){
             if($auto['id'] == $autoId){
-                return;
+                return $auto;
             }
+        }
+
+        if(!$context){
+            return;
         }
 
         $context->buildViolation('Auto not found')
@@ -33,13 +37,23 @@ class OrderController extends Controller
 
         foreach ($cities as $key => $city){
             if($city['id'] == $cityId){
-                return;
+                return $city;
             }
+        }
+
+        if(!$context){
+            return;
         }
 
         $context->buildViolation('City not found')
             ->addViolation();
     }
+
+    function formatDate($date){
+        $date = new \DateTime($date);
+        return $date->format('Y-m-d h:i');
+    }
+
 
     /**
      * @Route("/api/test", name="test")
@@ -54,11 +68,14 @@ class OrderController extends Controller
     }
 
 
+
     /**
      * @Route("/api/order", name="order")
      */
     public function index(Request $request, \Swift_Mailer $mailer)
     {
+
+        $store = new DataStore();
 
         $validator = Validation::createValidator();
 
@@ -116,11 +133,17 @@ class OrderController extends Controller
 
         $message = (new \Swift_Message('Hello Email'))
             ->setFrom('pavophilip@gmail.com')
-            ->setTo('pavophilip@gmail.com')
+            ->setTo($order['customer']['email'])
             ->setBody(
                 $this->renderView(
-                // templates/emails/registration.html.twig
-                    'emails/order.html.twig'
+                    'emails/order.html.twig',
+                    array(
+                        'city_from' => $this->validateCity($order['city_from']),
+                        'city_to' => $this->validateCity($order['city_to']),
+                        'auto' => $this->validateAuto($order['auto']),
+                        'date_from' => $this->formatDate($order['date_range']['from']),
+                        'date_to' => $this->formatDate($order['date_range']['to']),
+                    )
                 ),
                 'text/html'
             )
