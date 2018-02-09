@@ -31,7 +31,7 @@ class OrderController extends Controller
             ->addViolation();
     }
 
-    function validateCity($cityId, ExecutionContextInterface $context, $payload){
+    function validateCity($cityId, ExecutionContextInterface $context = null, $payload){
         $store = new DataStore();
         $cities = $store->get('CITIES_LIST');
 
