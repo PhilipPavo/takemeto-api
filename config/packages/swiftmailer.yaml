@@ -1,3 +1,10 @@
 swiftmailer:
-    url: '%env(MAILER_URL)%'
+    #url: '%env(MAILER_URL)%'
     spool: { type: 'memory' }
+    mailer_transport:  smtp
+    mailer_host:       smtp.gmail.com
+    mailer_user:       pavophilip@gmail.com
+    mailer_password:   my1alm3der
+    auth_mode:         login
+    port:              587
+    encryption:        tls
