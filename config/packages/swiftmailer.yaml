@@ -3,7 +3,7 @@ swiftmailer:
     spool: { type: 'memory' }
     transport:  smtp
     host:       smtp.gmail.com
-    user:       pavophilip@gmail.com
+    username:   pavophilip@gmail.com
     password:   my1alm3der
     auth_mode:         login
     port:              587
