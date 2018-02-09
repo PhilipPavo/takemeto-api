@@ -11,6 +11,30 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class OrderController extends Controller
 {
+    function searchCity($cityId){
+        $store = new DataStore();
+        $cities = $store->get('CITIES_LIST');
+
+        foreach ($cities as $key => $city){
+            if($city['id'] == $cityId){
+                return $city;
+            }
+        }
+        return array();
+    }
+
+    function searchAuto($autoId){
+        $store = new DataStore();
+        $autos = $store->get('AUTOS_LIST');
+
+        foreach ($autos as $key => $auto){
+            if($auto['id'] == $autoId){
+                return $auto;
+            }
+        }
+        return array();
+    }
+
     function validateAuto($autoId, ExecutionContextInterface $context = null, $payload)
     {
         $store = new DataStore();
@@ -31,7 +55,7 @@ class OrderController extends Controller
             ->addViolation();
     }
 
-    function validateCity($cityId, ExecutionContextInterface $context = null, $payload){
+    function validateCity($cityId, ExecutionContextInterface $context, $payload){
         $store = new DataStore();
         $cities = $store->get('CITIES_LIST');
 
@@ -138,9 +162,9 @@ class OrderController extends Controller
                 $this->renderView(
                     'emails/order.html.twig',
                     array(
-                        'city_from' => $this->validateCity($order['city_from']),
-                        'city_to' => $this->validateCity($order['city_to']),
-                        'auto' => $this->validateAuto($order['auto']),
+                        'city_from' => $this->searchCity($order['city_from']),
+                        'city_to' => $this->searchCity($order['city_to']),
+                        'auto' => $this->searchAuto($order['auto']),
                         'date_from' => $this->formatDate($order['date_range']['from']),
                         'date_to' => $this->formatDate($order['date_range']['to']),
                     )
