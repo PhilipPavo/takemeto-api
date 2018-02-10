@@ -144,6 +144,8 @@ class OrderController extends Controller
             return $response;
         }
 
+        $order = $order['order'];
+
         $mailLogger = new \Swift_Plugins_Loggers_ArrayLogger();
         $mailer->registerPlugin(new \Swift_Plugins_LoggerPlugin($mailLogger));
 
