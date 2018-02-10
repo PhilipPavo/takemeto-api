@@ -1,8 +1,8 @@
 <h3>Спасибо за заказ!</h3>
 
 <b>Детали заказа:</b>
-{{ cityFrom.label }} - {{ cityTo.label }} ({{ daysCount }} дней)<br/>
-{{ dateFrom }} - {{ dateTo }} <br/><br/>
+{{ cityFrom.label }} - {{ cityTo.label }}<br/>
+{{ dateFrom }} - {{ dateTo }}({{ daysCount }} дней) <br/><br/>
 
 <ul>
     {% for option in options %}
@@ -11,7 +11,7 @@
 </ul>
 
 <b>Автомобиль:</b><br/>
-{{ auto.title }} - {{ auto.price }}
+{{ auto.title }} - {{ auto.price }} $
 
 <b>Итого:</b>
 {{ basicPrice * daysCount }}

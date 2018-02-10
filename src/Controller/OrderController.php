@@ -138,7 +138,7 @@ class OrderController extends Controller
         $dateFrom = new \DateTime($order['date_range']['from']);
         $dateTo = new \DateTime($order['date_range']['to']);
         $dateInterval = $dateFrom->diff($dateTo);
-        $daysCount = intval($dateInterval->format('a'));
+        $daysCount = intval($dateInterval->format('%a'));
         $auto = $this->searchAuto($order['auto']);
 
         $emailVariables = array(
@@ -149,7 +149,6 @@ class OrderController extends Controller
             'dateTo' => $this->formatDate($order['date_range']['to']),
             'daysCount' => $daysCount,
             'options' => array(),
-            'totalPrice' => 0,
             'basicPrice' => $auto['price']
         );
 
@@ -182,7 +181,7 @@ class OrderController extends Controller
             'dump' => $mailLogger->dump(),
             'failures' => $failures,
             'mail' => $mailBody,
-            'mailTo' => $order['customer']
+            'mailVariables' => $emailVariables
         ));
 
         $response->headers->set('Access-Control-Allow-Origin', '*');
