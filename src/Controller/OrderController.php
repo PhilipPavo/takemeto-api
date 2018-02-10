@@ -70,21 +70,6 @@ class OrderController extends Controller
         return $date->format('Y-m-d h:i');
     }
 
-
-    /**
-     * @Route("/api/test", name="test")
-     */
-    public function test(Request $request){
-        $response = $this->json(array(
-            'test' => 'success'
-        ));
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        $response->headers->set('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
-        return $response;
-    }
-
-
-
     /**
      * @Route("/api/order", name="order")
      */
@@ -92,6 +77,7 @@ class OrderController extends Controller
     {
 
         $store = new DataStore();
+        $options = $store->get('ORDER_OPTIONS_ENUM');
 
         $validator = Validation::createValidator();
 
@@ -149,18 +135,38 @@ class OrderController extends Controller
         $mailLogger = new \Swift_Plugins_Loggers_ArrayLogger();
         $mailer->registerPlugin(new \Swift_Plugins_LoggerPlugin($mailLogger));
 
-        $mailBody = $this->renderView(
-            'emails/order.html.twig',
-            array(
-                'city_from' => $this->searchCity($order['city_from']),
-                'city_to' => $this->searchCity($order['city_to']),
-                'auto' => $this->searchAuto($order['auto']),
-                'date_from' => $this->formatDate($order['date_range']['from']),
-                'date_to' => $this->formatDate($order['date_range']['to']),
-            )
+        $dateFrom = new \DateTime($order['date_range']['from']);
+        $dateTo = new \DateTime($order['date_range']['to']);
+        $dateInterval = $dateFrom->diff($dateTo);
+        $daysCount = intval($dateInterval->format('a'));
+        $auto = $this->searchAuto($order['auto']);
+
+        $emailVariables = array(
+            'cityFrom' => $this->searchCity($order['city_from']),
+            'cityTo' => $this->searchCity($order['city_to']),
+            'auto' => $auto,
+            'dateFrom' => $this->formatDate($order['date_range']['from']),
+            'dateTo' => $this->formatDate($order['date_range']['to']),
+            'daysCount' => $daysCount,
+            'options' => array(),
+            'totalPrice' => 0,
+            'basicPrice' => $auto['price']
         );
 
-        $message = (new \Swift_Message('Hello Email'))
+        foreach($options as $key => $option){
+            if($order[$option]){
+                $option['totalPrice'] = $daysCount * $option['price'];
+                $emailVariables['options'][] = $option;
+                $emailVariables['basicPrice'] += $option['price'];
+            }
+        }
+
+        $mailBody = $this->renderView(
+            'emails/order.html.twig',
+            $emailVariables
+        );
+
+        $message = (new \Swift_Message('Ваш заказ принят'))
             ->setFrom('pavophilip@gmail.com')
             ->setTo($order['customer']['email'])
             ->setBody(
