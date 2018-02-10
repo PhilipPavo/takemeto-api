@@ -174,7 +174,7 @@ class OrderController extends Controller
             'dump' => $mailLogger->dump(),
             'failures' => $failures,
             'mail' => $mailBody,
-            'mailTo' => $order['customer']['email']
+            'mailTo' => $order['customer']
         ));
 
         $response->headers->set('Access-Control-Allow-Origin', '*');
