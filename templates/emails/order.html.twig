@@ -2,20 +2,21 @@
 {{ customer.name }} - {{ customer.phone }}<br/>
 {{ customer.email }} <br/>
 <b>Примечания:</b><br/>
-{{ customer.description }}
+{{ customer.description }}<br/>
 
 <b>Детали заказа:</b>
 {{ cityFrom.label }} - {{ cityTo.label }}<br/>
-{{ dateFrom }} - {{ dateTo }}({{ daysCount }} дней) <br/><br/>
+{{ dateFrom }} - {{ dateTo }}({{ daysCount }} дней) <br/>
 
+<b>Автомобиль:</b><br/>
+{{ auto.title }} - {{ auto.price }} $<br/>
+
+<b>Опции</b>
 <ul>
     {% for option in options %}
         <li>{{ option.label}} - {{ option.totalPrice}} $</li>
     {% endfor %}
 </ul>
-
-<b>Автомобиль:</b><br/>
-{{ auto.title }} - {{ auto.price }} $<br/>
 
 <b>Итого:</b>
 {{ basicPrice * daysCount }}
