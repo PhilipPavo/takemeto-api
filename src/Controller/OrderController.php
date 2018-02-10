@@ -138,7 +138,7 @@ class OrderController extends Controller
         $dateFrom = new \DateTime($order['date_range']['from']);
         $dateTo = new \DateTime($order['date_range']['to']);
         $dateInterval = $dateFrom->diff($dateTo);
-        $daysCount = intval($dateInterval->format('%a'));
+        $daysCount = intval($dateInterval->format('%a')) + 1;
         $auto = $this->searchAuto($order['auto']);
 
         $emailVariables = array(
@@ -149,11 +149,12 @@ class OrderController extends Controller
             'dateTo' => $this->formatDate($order['date_range']['to']),
             'daysCount' => $daysCount,
             'options' => array(),
-            'basicPrice' => $auto['price']
+            'basicPrice' => $auto['price'],
+            'customer' => $order['customer']
         );
 
         foreach($options as $key => $option){
-            if($order[$option]){
+            if($order[$key]){
                 $option['totalPrice'] = $daysCount * $option['price'];
                 $emailVariables['options'][] = $option;
                 $emailVariables['basicPrice'] += $option['price'];

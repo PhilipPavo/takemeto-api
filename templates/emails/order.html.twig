@@ -1,4 +1,8 @@
 <h3>Спасибо за заказ!</h3>
+{{ customer.name }} - {{ customer.phone }}<br/>
+{{ customer.email }} <br/>
+<b>Примечания:</b><br/>
+{{ customer.description }}
 
 <b>Детали заказа:</b>
 {{ cityFrom.label }} - {{ cityTo.label }}<br/>
@@ -11,7 +15,7 @@
 </ul>
 
 <b>Автомобиль:</b><br/>
-{{ auto.title }} - {{ auto.price }} $
+{{ auto.title }} - {{ auto.price }} $<br/>
 
 <b>Итого:</b>
 {{ basicPrice * daysCount }}
