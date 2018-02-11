@@ -73,7 +73,7 @@ class OrderController extends Controller
     /**
      * @Route("/api/order", name="order")
      */
-    public function index(Request $request, \Swift_Mailer $mailer)
+    public function index(Request $request)
     {
 
         $store = new DataStore();
@@ -132,9 +132,6 @@ class OrderController extends Controller
 
         $order = $order['order'];
 
-        $mailLogger = new \Swift_Plugins_Loggers_ArrayLogger();
-        $mailer->registerPlugin(new \Swift_Plugins_LoggerPlugin($mailLogger));
-
         $dateFrom = new \DateTime($order['date_range']['from']);
         $dateTo = new \DateTime($order['date_range']['to']);
         $dateInterval = $dateFrom->diff($dateTo);
@@ -166,21 +163,10 @@ class OrderController extends Controller
             $emailVariables
         );
 
-        $message = (new \Swift_Message('Ваш заказ принят'))
-            ->setFrom('pavophilip@gmail.com')
-            ->setTo($order['customer']['email'])
-            ->setBody(
-                $mailBody,
-                'text/html'
-            )
-        ;
-
-        $res = $mailer->send($message, $failures);
+        $this->sendMail($order['customer']['email'], 'Ваш заказ принят', $mailBody);
 
         $response = $this->json(array(
             'error' => false,
-            'dump' => $mailLogger->dump(),
-            'failures' => $failures,
             'mail' => $mailBody,
             'mailVariables' => $emailVariables
         ));
@@ -189,6 +175,31 @@ class OrderController extends Controller
         $response->headers->set('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
 
         return $response;
+    }
+
+    public function sendMail($mailTo, $subject, $body){
+        $url = 'http://takemeto.ru/sendmail.php';
+        $fields = array(
+            'mailTo' => urlencode($mailTo),
+            'subject' => urlencode($subject),
+            'body' => urlencode($body),
+            'secret' => '123456789'
+        );
+
+        $fields_string = '';
+
+        foreach($fields as $key=>$value) {
+            $fields_string .= $key.'='.$value.'&';
+        }
+        rtrim($fields_string, '&');
+
+        $ch = curl_init();
+
+        curl_setopt($ch,CURLOPT_URL, $url);
+        curl_setopt($ch,CURLOPT_POST, count($fields));
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+        $result = curl_exec($ch);
+        curl_close($ch);
     }
 }
 
