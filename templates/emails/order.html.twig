@@ -1,22 +1,66 @@
-<h3>Спасибо за заказ!</h3>
-{{ customer.name }} - {{ customer.phone }}<br/>
-{{ customer.email }} <br/>
-<b>Примечания:</b><br/>
-{{ customer.description }}<br/>
+<style>
 
-<b>Детали заказа:</b>
-{{ cityFrom.label }} - {{ cityTo.label }}<br/>
-{{ dateFrom }} - {{ dateTo }}({{ daysCount }} дней) <br/>
+    #wrapper {
+        left: 0px;
+        width:330px;
+        background-color: #f8fafc;
 
-<b>Автомобиль:</b><br/>
-{{ auto.title }} - {{ auto.price }} $<br/>
+        border: 1px solid #d8dee9;
 
-<b>Опции</b>
-<ul>
+        padding: 15px;
+    }
+    .title {
+
+        margin-bottom: 10px;
+        padding: 10px 0;
+        color: #74a3c7;
+        text-align: left;
+        border-bottom: 1px dashed #d8dee9;
+    }
+    .rightprice {
+        float: right;
+    }
+    .total_sume {
+
+        font-size:16px;
+        text-align: left;
+        color: #111;
+        padding: 5px;
+        background: #ffdd2d;
+        border-radius: 3px;
+        margin-top: 15px;
+
+    }
+</style>
+
+
+
+
+<div id="wrapper">
+
+    <h3>Спасибо за заказ!</h3>
+
+    <div class="title">Информация о заказе</div>
+
+    <p><span>Тип автомобиля</span><br><span>{{ auto.title }} - (Автоматическая)</span></p>
+    <p><span>Место Дата / Время получения</span><br><span>{{ cityFrom.label }} / &nbsp;</span><span>{{ dateFrom }}</span></p>
+    <p><span>Место Дата / Время возврата</span><br><span>{{ cityTo.label }} / &nbsp;</span><span>{{ cityFrom.label }}</span></p>
+    <p><span>Количество деней: {{ daysCount }}</span></p>
+
+    <div class="title">Стоимость аренды</div>
+    <p>Автомобиль:<span class="rightprice">{{ auto.price }} €</span></p>
+
     {% for option in options %}
-        <li>{{ option.label}} - {{ option.totalPrice}} $</li>
+        <p>{{ option.label}}:<span class="rightprice">{{ option.totalPrice}} €</span></p>
     {% endfor %}
-</ul>
 
-<b>Итого:</b>
-{{ basicPrice * daysCount }}
+    <p class="total_sume"><span>Итого к оплате при получение: &nbsp;<b><span class="rightprice">{{ basicPrice * daysCount }} €</span></b></span></p>
+
+
+    <div class="title">Контактная информация</div>
+    <p><span>Имя / Фамилия:</span>{{ customer.name }}</p>
+
+    <p><span>Телефон:</span>{{ customer.phone }}</p>
+    <p><span>Адрес электронной почты:</span>{{ customer.email }}</p>
+    <p><span>Примечание:</span>{{ customer.description }}</p>
+</div>
